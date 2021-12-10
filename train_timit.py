@@ -21,18 +21,15 @@ pl.utilities.seed.seed_everything(SEED)
 torch.manual_seed(SEED)
 
 
-from TIMIT.dataset import TIMITDataset
-if TIMITConfig.training_type == 'H':
-    from TIMIT.lightning_model_h import LightningModel
-elif TIMITConfig.loss == 'RMSE':
-    from TIMIT.lightning_model import LightningModel
-elif TIMITConfig.loss == 'UncertaintyLoss':
-    from TIMIT.lightning_model_uncertainty_loss import LightningModel
+from TIMIT.datasetLID import LIDDataset
+from TIMIT.lightning_model_l import LightningModel
 
 if __name__ == "__main__":
 
     parser = ArgumentParser(add_help=True)
-    parser.add_argument('--data_path', type=str, default=TIMITConfig.data_path)
+    parser.add_argument('--train_path', type=str, default=TIMITConfig.train_path)
+    parser.add_argument('--val_path', type=str, default=TIMITConfig.val_path)
+    parser.add_argument('--test_path', type=str, default=TIMITConfig.test_path)
     parser.add_argument('--speaker_csv_path', type=str, default=TIMITConfig.speaker_csv_path)
     parser.add_argument('--timit_wav_len', type=int, default=TIMITConfig.timit_wav_len)
     parser.add_argument('--batch_size', type=int, default=TIMITConfig.batch_size)
@@ -62,8 +59,8 @@ if __name__ == "__main__":
 
     # Training, Validation and Testing Dataset
     ## Training Dataset
-    train_set = TIMITDataset(
-        wav_folder = os.path.join(hparams.data_path, 'TRAIN'),
+    train_set = LIDDataset(
+        wavscp = hparams.train_path,
         hparams = hparams
     )
     ## Training DataLoader
@@ -74,8 +71,8 @@ if __name__ == "__main__":
         num_workers=hparams.n_workers
     )
     ## Validation Dataset
-    valid_set = TIMITDataset(
-        wav_folder = os.path.join(hparams.data_path, 'VAL'),
+    valid_set = LIDDataset(
+        wav_folder = hparams.val_path,
         hparams = hparams,
         is_train=False
     )
@@ -88,8 +85,8 @@ if __name__ == "__main__":
         num_workers=hparams.n_workers
     )
     ## Testing Dataset
-    test_set = TIMITDataset(
-        wav_folder = os.path.join(hparams.data_path, 'TEST'),
+    test_set = LIDDataset(
+        wav_folder = hparams.test_path,
         hparams = hparams,
         is_train=False
     )
