@@ -14,6 +14,8 @@ import torch_optimizer as optim
 from Model.models import UpstreamTransformer
 from Model.utils import RMSELoss
 
+from IPython import embed
+
 class LightningModel(pl.LightningModule):
     def __init__(self, HPARAMS):
         super().__init__()
@@ -84,7 +86,7 @@ class LightningModel(pl.LightningModule):
 
     def validation_epoch_end(self, outputs):
         val_loss = torch.tensor([x['val_loss'] for x in outputs]).mean()
-        language_acc = torch.tensor([x['language_acc'] for x in outputs]).mean()
+        language_acc = torch.tensor([x['val_language_acc'] for x in outputs]).mean()
         
         self.log('val/loss' , val_loss, on_step=False, on_epoch=True, prog_bar=True)
         self.log('val/acc',language_acc, on_step=False, on_epoch=True, prog_bar=True)

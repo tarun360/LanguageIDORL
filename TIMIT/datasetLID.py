@@ -7,6 +7,8 @@ import numpy as np
 import torchaudio
 import wavencoder
 
+from IPython import embed
+
 
 class LIDDataset(Dataset):
     def __init__(self,
@@ -24,7 +26,7 @@ class LIDDataset(Dataset):
         self.is_train = is_train
         self.wav_len = hparams.timit_wav_len
         self.data_type = hparams.data_type
-        self.classes = {'Tibet': 0, 'Uyghu': 1, 'id-id': 2, 'ja-jp': 3, 'ru-ru': 4, 'vi-vn': 5, 'zh-cn': 6}
+        self.classes = {'Kazak': 0, 'Tibet': 1, 'Uyghu': 2, 'ct-cn': 3, 'id-id': 4, 'ja-jp': 5, 'ko-kr': 6, 'ru-ru': 7, 'vi-vn': 8, 'zh-cn': 9}
 
         self.train_transform = wavencoder.transforms.Compose([
             wavencoder.transforms.PadCrop(pad_crop_length=self.wav_len, pad_position='left', crop_position='random'),
@@ -45,7 +47,7 @@ class LIDDataset(Dataset):
         
         file = self.files[idx]
         
-        language = self.classes(self.label_list[idx])
+        language = self.classes[self.label_list[idx]]
 
         wav, _ = torchaudio.load(file)
         if self.is_train:

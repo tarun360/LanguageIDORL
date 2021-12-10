@@ -21,7 +21,7 @@ class UpstreamTransformer(nn.Module):
         self.transformer_encoder = torch.nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
         
         self.language_classifier = nn.Sequential(
-            nn.Linear(feature_dim, 7),
+            nn.Linear(feature_dim, 10),
             nn.Softmax(dim=-1)
         )
 

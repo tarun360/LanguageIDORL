@@ -2,14 +2,11 @@ import os
 
 class TIMITConfig(object):
     # path to the unzuipped TIMIT data folder
-    train_path = '/notebooks/SpeakerProfiling/TIMIT_Dataset/wav_data/'
+    train_path = '/notebooks/LID/LanguageIDORL/data/train/wav.scp'
 
-    test_path = '/notebooks/SpeakerProfiling/TIMIT_Dataset/wav_data/'
+    test_path = '/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp'
 
-    val_path = '/notebooks/SpeakerProfiling/TIMIT_Dataset/wav_data/'
-
-    # path to csv file containing age, heights of timit speakers
-    speaker_csv_path = os.path.join(str(os.getcwd()), '/notebooks/SpeakerProfiling/Dataset/data_info_height_age.csv')
+    val_path = '/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp'
 
     # length of wav files for training and testing
     timit_wav_len = 3 * 16000

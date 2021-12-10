@@ -30,7 +30,6 @@ if __name__ == "__main__":
     parser.add_argument('--train_path', type=str, default=TIMITConfig.train_path)
     parser.add_argument('--val_path', type=str, default=TIMITConfig.val_path)
     parser.add_argument('--test_path', type=str, default=TIMITConfig.test_path)
-    parser.add_argument('--speaker_csv_path', type=str, default=TIMITConfig.speaker_csv_path)
     parser.add_argument('--timit_wav_len', type=int, default=TIMITConfig.timit_wav_len)
     parser.add_argument('--batch_size', type=int, default=TIMITConfig.batch_size)
     parser.add_argument('--epochs', type=int, default=TIMITConfig.epochs)
@@ -72,7 +71,7 @@ if __name__ == "__main__":
     )
     ## Validation Dataset
     valid_set = LIDDataset(
-        wav_folder = hparams.val_path,
+        wavscp = hparams.val_path,
         hparams = hparams,
         is_train=False
     )
@@ -86,7 +85,7 @@ if __name__ == "__main__":
     )
     ## Testing Dataset
     test_set = LIDDataset(
-        wav_folder = hparams.test_path,
+        wavscp = hparams.test_path,
         hparams = hparams,
         is_train=False
     )
