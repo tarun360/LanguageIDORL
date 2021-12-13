@@ -67,7 +67,7 @@ if __name__ == "__main__":
         train_set, 
         batch_size=hparams.batch_size, 
         shuffle=True, 
-        num_workers=hparams.n_workers
+        num_workers=hparams.n_workers,
     )
     ## Validation Dataset
     valid_set = LIDDataset(
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         batch_size=1,
         # hparams.batch_size, 
         shuffle=False, 
-        num_workers=hparams.n_workers
+        num_workers=hparams.n_workers,
     )
     ## Testing Dataset
     test_set = LIDDataset(
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         batch_size=1,
         # hparams.batch_size, 
         shuffle=False, 
-        num_workers=hparams.n_workers
+        num_workers=hparams.n_workers,
     )
 
     print('Dataset Split (Train, Validation, Test)=', len(train_set), len(valid_set), len(test_set))

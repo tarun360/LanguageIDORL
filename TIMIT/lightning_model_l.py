@@ -46,6 +46,9 @@ class LightningModel(pl.LightningModule):
 
     def training_step(self, batch, batch_idx):
         x, y_l = batch
+        
+#         embed()
+        
         y_hat_l = self(x)
         
         language_loss = self.classification_criterion(y_hat_l, y_l)

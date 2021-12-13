@@ -61,4 +61,7 @@ class LIDDataset(Dataset):
             if self.data_type == 'spectral':
                 wav = self.spectral_transform(wav)
         
+        if(wav.shape[0] != 1):
+            wav = torch.mean(wav, dim=0).reshape(1,-1)
+        
         return wav, language
