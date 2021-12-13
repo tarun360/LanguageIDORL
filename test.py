@@ -1,16 +1,11 @@
-from config import TIMITConfig
+from config import LIDConfig
 
 from argparse import ArgumentParser
 from multiprocessing import Pool
 import os
 
-from TIMIT.dataset import TIMITDataset
-if TIMITConfig.training_type == 'H':
-    from TIMIT.lightning_model_h import LightningModel
-elif TIMITConfig.loss == 'RMSE':
-    from TIMIT.lightning_model import LightningModel
-elif TIMITConfig.loss == 'UncertaintyLoss':
-    from TIMIT.lightning_model_uncertainty_loss import LightningModel
+from LID.datasetLID import LIDDataset
+from LID.lightning_model_l import LightningModel
 
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score
@@ -27,26 +22,26 @@ import numpy as np
 if __name__ == "__main__":
 
     parser = ArgumentParser(add_help=True)
-    parser.add_argument('--data_path', type=str, default=TIMITConfig.data_path)
-    parser.add_argument('--speaker_csv_path', type=str, default=TIMITConfig.speaker_csv_path)
-    parser.add_argument('--timit_wav_len', type=int, default=TIMITConfig.timit_wav_len)
-    parser.add_argument('--batch_size', type=int, default=TIMITConfig.batch_size)
-    parser.add_argument('--epochs', type=int, default=TIMITConfig.epochs)
-    parser.add_argument('--alpha', type=float, default=TIMITConfig.alpha)
-    parser.add_argument('--beta', type=float, default=TIMITConfig.beta)
-    parser.add_argument('--gamma', type=float, default=TIMITConfig.gamma)
-    parser.add_argument('--num_layers', type=int, default=TIMITConfig.num_layers)
-    parser.add_argument('--feature_dim', type=int, default=TIMITConfig.feature_dim)
-    parser.add_argument('--lr', type=float, default=TIMITConfig.lr)
-    parser.add_argument('--gpu', type=int, default=TIMITConfig.gpu)
-    parser.add_argument('--n_workers', type=int, default=TIMITConfig.n_workers)
+    parser.add_argument('--data_path', type=str, default=LIDConfig.data_path)
+    parser.add_argument('--speaker_csv_path', type=str, default=LIDConfig.speaker_csv_path)
+    parser.add_argument('--timit_wav_len', type=int, default=LIDConfig.timit_wav_len)
+    parser.add_argument('--batch_size', type=int, default=LIDConfig.batch_size)
+    parser.add_argument('--epochs', type=int, default=LIDConfig.epochs)
+    parser.add_argument('--alpha', type=float, default=LIDConfig.alpha)
+    parser.add_argument('--beta', type=float, default=LIDConfig.beta)
+    parser.add_argument('--gamma', type=float, default=LIDConfig.gamma)
+    parser.add_argument('--num_layers', type=int, default=LIDConfig.num_layers)
+    parser.add_argument('--feature_dim', type=int, default=LIDConfig.feature_dim)
+    parser.add_argument('--lr', type=float, default=LIDConfig.lr)
+    parser.add_argument('--gpu', type=int, default=LIDConfig.gpu)
+    parser.add_argument('--n_workers', type=int, default=LIDConfig.n_workers)
     parser.add_argument('--dev', type=str, default=False)
-    parser.add_argument('--model_checkpoint', type=str, default=TIMITConfig.model_checkpoint)
-    parser.add_argument('--noise_dataset_path', type=str, default=TIMITConfig.noise_dataset_path)
-    parser.add_argument('--upstream_model', type=str, default=TIMITConfig.upstream_model)
-    parser.add_argument('--model_type', type=str, default=TIMITConfig.model_type)
-    parser.add_argument('--training_type', type=str, default=TIMITConfig.training_type)
-    parser.add_argument('--data_type', type=str, default=TIMITConfig.data_type)
+    parser.add_argument('--model_checkpoint', type=str, default=LIDConfig.model_checkpoint)
+    parser.add_argument('--noise_dataset_path', type=str, default=LIDConfig.noise_dataset_path)
+    parser.add_argument('--upstream_model', type=str, default=LIDConfig.upstream_model)
+    parser.add_argument('--model_type', type=str, default=LIDConfig.model_type)
+    parser.add_argument('--training_type', type=str, default=LIDConfig.training_type)
+    parser.add_argument('--data_type', type=str, default=LIDConfig.data_type)
     parser.add_argument('--speed_change', action='store_true')
     parser.add_argument('--unfreeze_last_conv_layers', action='store_true')
     
@@ -55,7 +50,7 @@ if __name__ == "__main__":
     print(f'Testing Model on NISP Dataset\n#Cores = {hparams.n_workers}\t#GPU = {hparams.gpu}')
 
     # Testing Dataset
-    test_set = TIMITDataset(
+    test_set = LIDDataset(
         wav_folder = os.path.join(hparams.data_path, 'TEST'),
         hparams = hparams,
         is_train=False
@@ -70,7 +65,7 @@ if __name__ == "__main__":
 
     #Testing the Model
     if hparams.model_checkpoint:
-        if TIMITConfig.training_type == 'AHG':
+        if LIDConfig.training_type == 'AHG':
             model = LightningModel.load_from_checkpoint(hparams.model_checkpoint, HPARAMS=vars(hparams))
             model.eval()
             height_pred = []
