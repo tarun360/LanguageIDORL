@@ -1,6 +1,6 @@
 import os
 
-class TIMITConfig(object):
+class LIDConfig(object):
     # path to the unzuipped TIMIT data folder
     train_path = '/notebooks/LID/LanguageIDORL/data/train/wav.scp'
 
