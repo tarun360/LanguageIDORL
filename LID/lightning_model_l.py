@@ -15,6 +15,7 @@ from Model.models import UpstreamTransformer
 from Model.utils import RMSELoss
 
 from IPython import embed
+import torch.nn.utils.rnn as rnn_utils
 
 class LightningModel(pl.LightningModule):
     def __init__(self, HPARAMS):
@@ -45,16 +46,17 @@ class LightningModel(pl.LightningModule):
         return [optimizer]
 
     def training_step(self, batch, batch_idx):
-        x, y_l = batch
+        x, y_l, x_len = batch
+        y_l = torch.stack(y_l).reshape(-1,)
         
-#         embed()
-        
+        for i in range(x.shape[0]):
+            torch.narrow(x, 1, 0, x_len[i])
         y_hat_l = self(x)
         
         language_loss = self.classification_criterion(y_hat_l, y_l)
 
         winners = y_hat_l.argmax(dim=1)
-        corrects = (winners == y_l)
+        corrects = (winners[0] == y_l)
         language_acc = corrects.sum().float() / float( y_hat_l.size(0) )
 
         loss = language_loss
@@ -72,13 +74,17 @@ class LightningModel(pl.LightningModule):
         self.log('train/acc',language_acc, on_step=False, on_epoch=True, prog_bar=True)
 
     def validation_step(self, batch, batch_idx):
-        x, y_l = batch
+        x, y_l, x_len = batch
+        y_l = torch.stack(y_l).reshape(-1,)
+        
+        for i in range(x.shape[0]):
+            torch.narrow(x, 1, 0, x_len[i])
         y_hat_l = self(x)
         
         language_loss = self.classification_criterion(y_hat_l, y_l)
 
         winners = y_hat_l.argmax(dim=1)
-        corrects = (winners == y_l)
+        corrects = (winners[0] == y_l)
         language_acc = corrects.sum().float() / float( y_hat_l.size(0) )
 
         loss = language_loss
@@ -95,7 +101,11 @@ class LightningModel(pl.LightningModule):
         self.log('val/acc',language_acc, on_step=False, on_epoch=True, prog_bar=True)
 
     def test_step(self, batch, batch_idx):
-        x, y_l = batch
+        x, y_l, x_len = batch
+        y_l = torch.stack(y_l).reshape(-1,)
+        
+        for i in range(x.shape[0]):
+            torch.narrow(x, 1, 0, x_len[i])
         y_hat_l = self(x)
 
         winners = y_hat_l.argmax(dim=1)

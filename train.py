@@ -8,7 +8,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.loggers import TensorBoardLogger, WandbLogger
 from pytorch_lightning import Trainer
-
+from IPython import embed
 
 import torch
 import torch.utils.data as data
@@ -23,6 +23,17 @@ torch.manual_seed(SEED)
 
 from LID.datasetLID import LIDDataset
 from LID.lightning_model_l import LightningModel
+
+import torch.nn.utils.rnn as rnn_utils
+def collate_fn(batch):
+    (seq, label) = zip(*batch)
+    seql = [x.reshape(-1,) for x in seq]
+    seq_length = [x.shape[0] for x in seql]
+#     embed()
+    data = rnn_utils.pad_sequence(seql, batch_first=True, padding_value=0)
+#     label = rnn_utils.pad_sequence(label, batch_first=True, padding_value=0)
+    
+    return data, label, seq_length
 
 if __name__ == "__main__":
 
@@ -68,6 +79,7 @@ if __name__ == "__main__":
         batch_size=hparams.batch_size, 
         shuffle=True, 
         num_workers=hparams.n_workers,
+        collate_fn = collate_fn,
     )
     ## Validation Dataset
     valid_set = LIDDataset(
@@ -82,6 +94,7 @@ if __name__ == "__main__":
         # hparams.batch_size, 
         shuffle=False, 
         num_workers=hparams.n_workers,
+        collate_fn = collate_fn,
     )
     ## Testing Dataset
     test_set = LIDDataset(
@@ -96,6 +109,7 @@ if __name__ == "__main__":
         # hparams.batch_size, 
         shuffle=False, 
         num_workers=hparams.n_workers,
+        collate_fn = collate_fn,
     )
 
     print('Dataset Split (Train, Validation, Test)=', len(train_set), len(valid_set), len(test_set))
