@@ -15,7 +15,6 @@ from Model.models import UpstreamTransformer
 from Model.utils import RMSELoss
 
 from IPython import embed
-import torch.nn.utils.rnn as rnn_utils
 
 class LightningModel(pl.LightningModule):
     def __init__(self, HPARAMS):

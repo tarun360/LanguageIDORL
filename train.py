@@ -29,10 +29,7 @@ def collate_fn(batch):
     (seq, label) = zip(*batch)
     seql = [x.reshape(-1,) for x in seq]
     seq_length = [x.shape[0] for x in seql]
-#     embed()
     data = rnn_utils.pad_sequence(seql, batch_first=True, padding_value=0)
-#     label = rnn_utils.pad_sequence(label, batch_first=True, padding_value=0)
-    
     return data, label, seq_length
 
 if __name__ == "__main__":
