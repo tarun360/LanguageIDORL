@@ -18,9 +18,6 @@ class LIDConfig(object):
     ## H
     # wav2vecTransformer
     model_type = 'UpstreamTransformer'
-
-    # RMSE, UncertaintyLoss
-    loss = "UncertaintyLoss"
     
     ## H
     # wav2vecTransformer
