@@ -1,1 +1,1 @@
-python train.py --n_workers=0 --batch_size 4 --lr 0.00001 --epochs 50 
+python train.py --n_workers=0 --batch_size 4 --lr 0.00001 --epochs 1 

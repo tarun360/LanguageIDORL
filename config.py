@@ -8,23 +8,8 @@ class LIDConfig(object):
 
     val_path = '/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp'
 
-    # length of wav files for training and testing
-    timit_wav_len = 3 * 16000
-    # 16000 * 2
-
-    batch_size = 32
+    batch_size = 4
     epochs = 200
-    
-    # loss = alpha * height_loss + beta * age_loss + gamma * gender_loss
-    alpha = 1
-    beta = 1
-    gamma = 1
-
-    # training type - AHG/H
-    training_type = 'AHG'
-
-    # data type - raw/spectral
-    data_type = 'raw' 
 
     # model type
     ## AHG 
@@ -36,6 +21,10 @@ class LIDConfig(object):
 
     # RMSE, UncertaintyLoss
     loss = "UncertaintyLoss"
+    
+    ## H
+    # wav2vecTransformer
+    model_type = 'UpstreamTransformer'
     
     # upstream model to be loaded from s3prl. Some of the upstream models are: wav2vec2, TERA, mockingjay etc.
     #See the available models here: https://github.com/s3prl/s3prl/blob/master/s3prl/upstream/README.md
@@ -57,10 +46,7 @@ class LIDConfig(object):
     # model checkpoint to continue from
     model_checkpoint = None
     
-    # noise dataset for augmentation
-    noise_dataset_path = '/home/shangeth/noise_dataset'
-
     # LR of optimizer
     lr = 1e-4
 
-    run_name = data_type + '_' + training_type + '_' + model_type
+    run_name = model_type
