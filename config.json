@@ -1,0 +1,14 @@
+{
+    "dir": {
+        "train_path": "/notebooks/LID/LanguageIDORL/data/train/wav.scp",
+        "test_path": "/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp",
+        "val_path": "/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp"
+    },
+    "parameters": {
+        "batch_size": "4",
+        "epochs": "200",
+        "lr": "1e-4"
+    },
+    "gpu": "-1",
+    "n_workers": "0"
+}

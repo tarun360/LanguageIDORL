@@ -1,15 +1,19 @@
 import os
+import json
+
+with open("config.json", "r") as jsonfile:
+    config = json.load(jsonfile)
 
 class LIDConfig(object):
     # path to the unzuipped TIMIT data folder
-    train_path = '/notebooks/LID/LanguageIDORL/data/train/wav.scp'
+    train_path = config['dir']['train_path']
 
-    test_path = '/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp'
+    test_path = config['dir']['test_path']
 
-    val_path = '/notebooks/LID/LanguageIDORL/data/dev_all/wav.scp'
+    val_path = config['dir']['val_path']
 
-    batch_size = 4
-    epochs = 200
+    batch_size = int(config['parameters']['batch_size'])
+    epochs = int(config['parameters']['epochs'])
 
     # model type
     ## AHG 
@@ -37,13 +41,13 @@ class LIDConfig(object):
     feature_dim = 768
 
     # No of GPUs for training and no of workers for datalaoders
-    gpu = '-1'
-    n_workers = 0
+    gpu = int(config['gpu'])
+    n_workers = int(config['n_workers'])
 
     # model checkpoint to continue from
     model_checkpoint = None
     
     # LR of optimizer
-    lr = 1e-4
+    lr = float(config['parameters']['lr'])
 
     run_name = model_type
