@@ -1,6 +1,6 @@
 # Language ID
 
-This Repository contains the code for language identification from speech utterance. This repository uses [s3prl](https://github.com/s3prl/s3prl) library to load various upstream models like wav2vec2, CPC, TERA etc. This repository uses TIMIT dataset. 
+This Repository contains the code for language identification from speech utterance. This repository uses [s3prl](https://github.com/s3prl/s3prl) library to load various upstream models like wav2vec2, CPC, TERA etc. 
 
 ## Installation
 
@@ -14,7 +14,7 @@ pip install -r requirements.txt
 
 
 ### Update Config and Logger
-Update the config.py file to update the upstream model, batch_size, gpus, lr, etc and change the preferred logger in train_.py files
+Update the config.py file to update the upstream model, batch_size, gpus, lr, etc and change the preferred logger in train.py files
 
 ### Training
 ```bash
