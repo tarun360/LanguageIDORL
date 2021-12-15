@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
 
     # Training the Model
-    # logger = TensorBoardLogger('TIMIT_logs', name='')
+    # logger = TensorBoardLogger('LID_logs', name='')
     logger = WandbLogger(
         name=LIDConfig.run_name,
         project='SpeakerProfiling'

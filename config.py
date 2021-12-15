@@ -5,7 +5,6 @@ with open("config.json", "r") as jsonfile:
     config = json.load(jsonfile)
 
 class LIDConfig(object):
-    # path to the unzuipped TIMIT data folder
     train_path = config['dir']['train_path']
 
     test_path = config['dir']['test_path']
@@ -15,16 +14,6 @@ class LIDConfig(object):
     batch_size = int(config['parameters']['batch_size'])
     epochs = int(config['parameters']['epochs'])
 
-    # model type
-    ## AHG 
-    # wav2vecTransformer
-    
-    ## H
-    # wav2vecTransformer
-    model_type = 'UpstreamTransformer'
-    
-    ## H
-    # wav2vecTransformer
     model_type = 'UpstreamTransformer'
     
     # upstream model to be loaded from s3prl. Some of the upstream models are: wav2vec2, TERA, mockingjay etc.
