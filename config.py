@@ -5,20 +5,23 @@ with open("config.json", "r") as jsonfile:
     config = json.load(jsonfile)
 
 class LIDConfig(object):
-    train_path = config['dir']['train_path']
 
-    test_path = config['dir']['test_path']
+    dir = config['dataDir']['dir']
 
-    val_path = config['dir']['val_path']
+    train_path = config['dataDir']['train_path'].replace('$dir', dir)
 
-    batch_size = int(config['parameters']['batch_size'])
-    epochs = int(config['parameters']['epochs'])
+    test_path = config['dataDir']['test_path'].replace('$dir', dir)
+
+    val_path = config['dataDir']['val_path'].replace('$dir', dir)
+
+    batch_size = int(config['model_parameters']['batch_size'])
+    epochs = int(config['model_parameters']['epochs'])
 
     model_type = 'UpstreamTransformer'
     
-    # upstream model to be loaded from s3prl. Some of the upstream models are: wav2vec2, TERA, mockingjay etc.
+    # upstream model to be loaded from s3prl. Some of the upstream models are: wav2vec2, hubert, TERA, mockingjay etc.
     #See the available models here: https://github.com/s3prl/s3prl/blob/master/s3prl/upstream/README.md
-    upstream_model = 'wav2vec2'
+    upstream_model = config['model_parameters']['upstream_model']
 
     # number of layers in encoder (transformers)
     num_layers = 6
@@ -37,6 +40,6 @@ class LIDConfig(object):
     model_checkpoint = None
     
     # LR of optimizer
-    lr = float(config['parameters']['lr'])
+    lr = float(config['model_parameters']['lr'])
 
     run_name = model_type
